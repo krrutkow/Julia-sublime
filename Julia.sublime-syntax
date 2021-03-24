@@ -227,6 +227,21 @@ contexts:
             - match: '(?=""")'
               pop: true
 
+    - match: '(c)(""")'
+      captures:
+        1: storage.type.string.julia
+        2: meta.string.julia string.quoted.double.block.julia punctuation.definition.string.begin.julia
+      push:
+        - meta_content_scope: meta.string.julia string.quoted.double.block.julia
+        - match: '"""'
+          scope: punctuation.definition.string.end.julia
+          set: after-expression
+        - match: ''
+          push: scope:source.c
+          with_prototype:
+            - match: '(?=""")'
+              pop: true
+
     - match: '(v|raw|{{symb_id}})(""")'
       captures:
         1: storage.type.string.julia
@@ -275,6 +290,21 @@ contexts:
         - match: ''
           # we borrow the python regular expressions
           push: scope:source.regexp.python
+          with_prototype:
+            - match: '(?=")'
+              pop: true
+
+    - match: '(c)(")'
+      captures:
+        1: storage.type.string.julia
+        2: meta.string.julia string.quoted.double.julia punctuation.definition.string.begin.julia
+      push:
+        - meta_content_scope: meta.string.julia string.quoted.double.julia
+        - match: '"'
+          scope: punctuation.definition.string.end.julia
+          set: after-expression
+        - match: ''
+          push: scope:source.c
           with_prototype:
             - match: '(?=")'
               pop: true
